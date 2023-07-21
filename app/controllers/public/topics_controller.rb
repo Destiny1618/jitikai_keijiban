@@ -1,7 +1,5 @@
 class Public::TopicsController < ApplicationController
   def index
-  end
-
-  def show
+    @topic = Topic.all
   end
 end

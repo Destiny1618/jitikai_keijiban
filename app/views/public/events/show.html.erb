@@ -1,0 +1,10 @@
+<div>
+  <p><%= @event.title %></p>
+  <p><%= @event.body %></p>
+  <%= image_tag @event.get_image %>
+  <p>投稿者：<%= @event.customer.name %></p>
+  <p>投稿日：<%= @event.created_at.strftime('%Y/%m/%d') %></p>
+  <% if @event.customer == current_customer %>
+    <%= link_to "削除", event_path(@event), method: :delete %>
+  <% end %>
+</div>

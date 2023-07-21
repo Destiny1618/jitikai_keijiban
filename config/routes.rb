@@ -1,9 +1,21 @@
 Rails.application.routes.draw do
-  namespace :public do
-    resources :posts, only: [:new, :index, :show, :edit]
-  end
-  namespace :public do
-    gresources :topics, only: [:index, :show]
+  scope module: :public do
+    resources :customers, only: [:show, :edit]
+    resources :jitikais, only: [:index, :show] do
+      resource :favorites, only: [:create, :destroy]
+    end
+    resources :dusts, only: [:index, :show] do
+      resource :favorites, only: [:create, :destroy]
+    end
+    resources :posts, only: [:new, :create, :index, :show, :edit, :destroy] do
+      resource :favorites, only: [:create, :destroy]
+      resources :post_comments, only: [:create]
+    end
+    resources :events, only: [:new, :create, :index, :show, :edit, :destroy] do
+      resource :favorites, only: [:create, :destroy]
+      resources :post_comments, only: [:create]
+    end
+    resources :topics, only: [:index]
   end
   devise_for :admin, skip: [:registrations, :passwords] ,controllers: {
   sessions: "admin/sessions"
@@ -13,8 +25,7 @@ Rails.application.routes.draw do
   sessions: 'public/sessions'
 }
 root to: "homes#top"
+get "search" => "searches#search"
 get '/homes/about' => "homes#about",as: 'about'
-  resources :post_images, only: [:new, :create, :index, :show, :destroy] do
-    resources :post_comments, only: [:create]
-  end
+  
 end

@@ -1,0 +1,8 @@
+<% @events.each do |event| %>
+  <div>
+    <%= link_to event_path(event.id) do %>
+      <%= event.title %>
+    <% end %>
+    <p>投稿者：<%= event.customer.name %></p>
+  </div>
+<% end %>

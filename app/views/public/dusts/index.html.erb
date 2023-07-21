@@ -1,0 +1,8 @@
+<% @dusts.each do |dust| %>
+  <div>
+    <%= link_to dust_path(dust.id) do %>
+      <%= dust.title %>
+    <% end %>
+    <p>投稿者：<%= dust.customer.name %></p>
+  </div>
+<% end %>

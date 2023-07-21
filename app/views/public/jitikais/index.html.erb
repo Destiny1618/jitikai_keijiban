@@ -1,0 +1,8 @@
+<% @jitikais.each do |jitikai| %>
+  <div>
+    <%= link_to jitikai_path(jitikai.id) do %>
+      <%= jitikai.title %>
+    <% end %>
+    <p>投稿者：<%= jitikai.customer.name %></p>
+  </div>
+<% end %>
