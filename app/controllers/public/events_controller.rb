@@ -25,6 +25,12 @@ class Public::EventsController < ApplicationController
   end
 
   def edit
+    @event = Event.find(params[:id])
+    if @event.customer == current_customer
+      render :edit
+    else
+      redirect_to events_path
+    end
   end
 
   def destroy

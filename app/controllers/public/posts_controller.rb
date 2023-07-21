@@ -25,6 +25,12 @@ class Public::PostsController < ApplicationController
   end
 
   def edit
+    @post = Post.find(params[:id])
+    if @post.customer == current_customer
+      render :edit
+    else
+      redirect_to posts_path
+    end
   end
 
   def destroy
