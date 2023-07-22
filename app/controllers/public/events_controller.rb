@@ -21,7 +21,7 @@ class Public::EventsController < ApplicationController
 
   def show
     @event = Event.find(params[:id])
-    @post_comment = PostComment.new
+    @event_comment = EventComment.new
   end
 
   def edit

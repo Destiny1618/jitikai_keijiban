@@ -1,6 +1,6 @@
-class PostComment < ApplicationRecord
+class EventComment < ApplicationRecord
   belongs_to :customer
-  belongs_to :post
+  belongs_to :event
 
   validates :comment, presence: true
 end

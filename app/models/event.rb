@@ -2,7 +2,7 @@ class Event < ApplicationRecord
   has_one_attached :image
   belongs_to :admin
   belongs_to :customer
-  has_many :post_comments, dependent: :destroy
+  has_many :event_comments, dependent: :destroy
   has_many :favorites, dependent: :destroy
 
   def favorited_by?(customer)
