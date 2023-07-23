@@ -13,9 +13,21 @@
   <body>
     <header>
     <% if customer_signed_in? %>
-    　<li>
-        <%= link_to "投稿", new_post_path %>
-      </li>
+      <% unless controller_name == 'posts' && action_name == "new" %>
+      　<li>
+          <%= link_to "掲示板に投稿", new_post_path %>
+        </li>
+      <% end %>
+      <% unless controller_name == 'events' && action_name == "new" %>
+      　<li>
+          <%= link_to "イベントに投稿", new_event_path %>
+        </li>
+      <% end %>
+      <% unless controller_name == 'customers' && action_name == "show" %>
+        <li>
+        <%= link_to 'マイページ', customer_path(current_customer.id) %>
+        </li>
+      <% end %>
       <li>
         <%= link_to "ログアウト", destroy_customer_session_path, method: :delete %>
       </li>

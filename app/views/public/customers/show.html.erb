@@ -1,2 +1,21 @@
-<h1>Public::Customers#show</h1>
-<p>Find me in app/views/public/customers/show.html.erb</p>
+<div>
+  <h3>マイページ</h3>
+    <table class="table">
+      <tbody>
+        <tr>
+          <td><%= @customer.name %></td>
+          <td><%= @customer.nickname %></td>
+          <td><%= @customer.telephone_number %></td>
+          <td><%= @customer.email %></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+    <% @posts.each do |post| %>
+    <%= post.title %>
+    <% end %>
+    
+    <% @events.each do |event| %>
+    <%= event.title %>
+    <% end %>
