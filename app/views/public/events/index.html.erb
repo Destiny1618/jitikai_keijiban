@@ -4,5 +4,6 @@
       <%= event.title %>
     <% end %>
     <p>投稿者：<%= event.customer.name %></p>
+    <p><%= link_to "#{event.event_comments.count} コメント", event_path(event.id) %></p>
   </div>
 <% end %>

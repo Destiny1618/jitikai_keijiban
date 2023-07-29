@@ -8,7 +8,7 @@
   </ul>
 <% end %>
 
-<%= form_with model: @post do |f| %>
+<%= form_with model: @post, url: post_path(@post), method: :patch do |f| %>
 
   <h4>Title</h4>
   <%= f.text_field :title %>

@@ -1,4 +1,7 @@
-<!DOCTYPE html>
+
+
+
+
 <html>
   <head>
     <title>JitikaiKeijiban</title>
@@ -13,21 +16,20 @@
   <body>
     <header>
     <% if customer_signed_in? %>
-      <% unless controller_name == 'posts' && action_name == "new" %>
-      　<li>
-          <%= link_to "掲示板に投稿", new_post_path %>
-        </li>
-      <% end %>
-      <% unless controller_name == 'events' && action_name == "new" %>
-      　<li>
-          <%= link_to "イベントに投稿", new_event_path %>
-        </li>
-      <% end %>
-      <% unless controller_name == 'customers' && action_name == "show" %>
-        <li>
+      <li>
+        <%= link_to "HOME", public_topics_path %>
+      </li>
+    <% unless current_customer.guest? %>
+    　<li>
+        <%= link_to "掲示板に投稿", new_post_path %>
+      </li>
+    　<li>
+        <%= link_to "イベントに投稿", new_event_path %>
+      </li>
+      <li>
         <%= link_to 'マイページ', customer_path(current_customer.id) %>
-        </li>
-      <% end %>
+      </li>
+    <% end %>
       <li>
         <%= link_to "ログアウト", destroy_customer_session_path, method: :delete %>
       </li>
@@ -39,6 +41,16 @@
         <%= link_to "ログイン", new_customer_session_path %>
       </li>
     <% end %>
+    <% if customer_signed_in? %>
+      <div class="search_form">
+        <%= form_with url: search_path, local: true, method: :get do |f| %>
+          <%= f.text_field :word %>
+          <%= f.select :range, options_for_select([['Post'], ['Event'],['Jitikai'],['Dust']]) %>
+          <%= f.select :search, options_for_select([["完全一致","perfect_match"], ["前方一致","forward_match"],  ["後方一致","backward_match"], ["部分一致","partial_match"]]) %>
+          <%= f.submit "検索", class: "btn btn-primary" %>
+    <% end %>
+  </div>
+<% end %>
   </header>
     <%= yield %>
   </body>

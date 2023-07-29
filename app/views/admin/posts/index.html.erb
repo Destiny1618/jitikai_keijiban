@@ -1,0 +1,13 @@
+<% @posts.each do |post| %>
+  <% if current_user.admin? %>
+    <%= link_to "管理者用編集", edit_admin_post_path(t.id) %>
+    <%= link_to "管理者用削除", admin_post_path(t.id), method: :delete %>
+  <% end %>
+  <div>
+    <%= link_to admin_post_path(post.id) do %>
+      <%= post.title %>
+    <% end %>
+    <p>投稿者：<%= post.admin.name %></p>
+    <p><%= link_to "#{post.post_comments.count} コメント", admin_post_path(post.id) %></p>
+  </div>
+<% end %>

@@ -1,9 +1,10 @@
 class Public::EventCommentsController < ApplicationController
   def create
     event = Event.find(params[:event_id])
-    comment = current_customer.event_comments.new(event_comment_params)
-    comment.event_id = event.id
-    comment.save
+    if current_customer.email != "guest@example.com" && comment = current_customer.event_comments.new(event_comment_params)
+      comment.event_id = event.id
+      comment.save
+    end
     redirect_to event_path(event)
   end
 

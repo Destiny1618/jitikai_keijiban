@@ -4,7 +4,19 @@
   <%= image_tag @dust.get_image %>
   <p>投稿者：<%= @dust.customer.name %></p>
   <p>投稿日：<%= @dust.created_at.strftime('%Y/%m/%d') %></p>
-  <% if @dust.customer == current_customer %>
-    <%= link_to "削除", dust_path(@dust), method: :delete %>
+  <% if !current_customer.guest? %>
+  <% if @dust.favorited_by?(current_customer) %>
+    <p>
+      <%= link_to dust_favorite_path(@dust.id), method: :delete do %>
+        ♥<%= @dust.favorites.count %> いいね
+      <% end %>
+    </p>
+    <% else %>
+    <p>
+      <%= link_to dust_favorite_path(@dust.id), method: :post do %>
+        ♡<%= @dust.favorites.count %> いいね
+      <% end %>
+    </p>
+  <% end %>
   <% end %>
 </div>

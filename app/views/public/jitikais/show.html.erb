@@ -4,7 +4,19 @@
   <%= image_tag @jitikai.get_image %>
   <p>投稿者：<%= @jitikai.customer.name %></p>
   <p>投稿日：<%= @jitikai.created_at.strftime('%Y/%m/%d') %></p>
-  <% if @jitikai.customer == current_customer %>
-    <%= link_to "削除", jitikai_path(@jitikai), method: :delete %>
+  <% if !current_customer.guest? %>
+  <% if @jitikai.favorited_by?(current_customer) %>
+    <p>
+      <%= link_to jitikai_favorite_path(@jitikai.id), method: :delete do %>
+        ♥<%= @jitikai.favorites.count %> いいね
+      <% end %>
+    </p>
+    <% else %>
+    <p>
+      <%= link_to jitikai_favorite_path(@jitikai.id), method: :post do %>
+        ♡<%= @jitikai.favorites.count %> いいね
+      <% end %>
+    </p>
+  <% end %>
   <% end %>
 </div>

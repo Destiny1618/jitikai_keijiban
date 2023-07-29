@@ -1,0 +1,28 @@
+<nav class="navbar navbar-expand-lg text-center navbar-dark bg-dark">
+  <div class="collapse navbar-collapse">
+    <% if customer_signed_in? %>
+    <div class="row d-flex justify-content-around align-items-center col-md-6 ms-5">
+      <div class="navbar navbar-brand">
+        <%= link_to root_path do %>
+          <%= image_tag 'logo.jpg', size: '70x70' %>
+        <% end %>
+      </div>
+      <h5 style="color: white;">ようこそ、<%= current_customer.name %>さん</h5>
+    </div>
+    <% elsif admin_signed_in? %>
+    <div class="row d-flex justify-content-around align-items-center col-md-6 ms-5">
+      <div class="navbar navbar-brand">
+        <%= link_to root_path do %>
+          <%= image_tag 'logo.jpg', size: '70x70' %>
+        <% end %>
+      </div>
+    </div>
+    <% else %>
+      <div class="navbar navbar-brand ms-5">
+        <%= link_to root_path do %>
+          <%= image_tag 'logo.jpg', size: '70x70' %>
+        <% end %>
+        <div></div>
+      </div>
+    <% end %>
+  </div>

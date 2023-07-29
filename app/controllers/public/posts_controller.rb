@@ -1,4 +1,6 @@
 class Public::PostsController < ApplicationController
+  before_action :authenticate_customer!
+
   def new
     @post = Post.new
   end
@@ -6,7 +8,7 @@ class Public::PostsController < ApplicationController
   def create
     @post = Post.new(post_params)
     @post.customer_id = current_customer.id
-    if @post.save
+    if !current_customer.guest? && @post.save
       redirect_to posts_path(@post.id)
     else
       @posts = Post.all
@@ -26,17 +28,45 @@ class Public::PostsController < ApplicationController
 
   def edit
     @post = Post.find(params[:id])
-    if @post.customer == current_customer
+    if !current_customer.guest? && @post.customer == current_customer
       render :edit
     else
       redirect_to posts_path
     end
   end
 
+  def update
+    @post = Post.find(params[:id])
+    if !current_customer.guest? && @post.update(post_params)
+      flash[:notice] = "You have updated user successfully."
+      redirect_to post_path(@post.id)
+    else
+      render :edit
+    end
+  end
+
   def destroy
     post = Post.find(params[:id])
-    post.destroy
+    if !post.customer.guest?
+      post.destroy
+    end
     redirect_to '/posts'
+  end
+
+  def favorite_create
+    post = Post.find(params[:post_id])
+    if !post.customer.guest?
+      post.favorites.create(customer_id: current_customer.id)
+    end
+    redirect_back fallback_location: root_path
+  end
+
+  def favorite_destroy
+    post = Post.find(params[:post_id])
+    if !post.customer.guest?
+      post.favorites.find_by(customer_id: current_customer.id).destroy
+    end
+    redirect_back fallback_location: root_path
   end
 
   private
@@ -44,5 +74,4 @@ class Public::PostsController < ApplicationController
   def post_params
     params.require(:post).permit(:title, :body)
   end
-
 end

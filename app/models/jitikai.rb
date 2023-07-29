@@ -2,7 +2,7 @@ class Jitikai < ApplicationRecord
   has_one_attached :image
   belongs_to :admin
   belongs_to :customer
-  has_many :favorites, dependent: :destroy
+  has_many :favorites, as: :favoriteable, dependent: :destroy
 
   def favorited_by?(customer)
     favorites.exists?(customer_id: customer.id)
@@ -15,4 +15,20 @@ class Jitikai < ApplicationRecord
     end
     image
   end
+
+  def self.looks(search, word)
+    if search == "perfect_match"
+      @jitikai = Jitikai.where("title LIKE?","#{word}")
+    elsif search == "forward_match"
+      @jitikai = Jitikai.where("title LIKE?","#{word}%")
+    elsif search == "backward_match"
+      @jitikai = Jitikai.where("title LIKE?","%#{word}")
+    elsif search == "partial_match"
+      @jitikai = Jitikai.where("title LIKE?","%#{word}%")
+    else
+      @jitikai = Jitikai.all
+    end
+    
+  end
+
 end

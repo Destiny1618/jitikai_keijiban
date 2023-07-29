@@ -1,9 +1,9 @@
 class Event < ApplicationRecord
   has_one_attached :image
-  belongs_to :admin
-  belongs_to :customer
+  belongs_to :admin, optional: true
+  belongs_to :customer, optional: true
   has_many :event_comments, dependent: :destroy
-  has_many :favorites, dependent: :destroy
+  has_many :favorites, as: :favoriteable, dependent: :destroy
 
   def favorited_by?(customer)
     favorites.exists?(customer_id: customer.id)
@@ -16,4 +16,19 @@ class Event < ApplicationRecord
     end
     image
   end
+
+  def self.looks(search, word)
+    if search == "perfect_match"
+      @event = Event.where("title LIKE?","#{word}")
+    elsif search == "forward_match"
+      @event = Event.where("title LIKE?","#{word}%")
+    elsif search == "backward_match"
+      @event = Event.where("title LIKE?","%#{word}")
+    elsif search == "partial_match"
+      @event = Event.where("title LIKE?","%#{word}%")
+    else
+      @event = Event.all
+    end
+  end
+
 end

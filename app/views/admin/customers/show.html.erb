@@ -1,0 +1,45 @@
+<div class="container mt-5">
+  <div class="col-md-12 mx-auto mt-5">
+
+    <div class="row justify-content-center mb-3">
+      <div class="col-md-11 headline">
+        <h4><strong><%= @customer.name%></strong>さんの会員詳細</h4>
+      </div>
+    </div>
+
+    <div class="col-md-12 mx-auto">
+      <table class="table table-borderless">
+        <thead>
+          <tr>
+            <th scope="col" style="width: 20%"></th>
+            <th scope="col" style="width: 80%"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>氏名</td>
+            <td><%= @customer.name %></td>
+          </tr>
+          <tr>
+            <td>ニックネーム</td>
+            <td><%= @customer.nickname %></td>
+          </tr>
+          <tr>
+             <td>電話番号</td>
+             <td><%= @customer.telephone_number %></td>
+          </tr>
+          <tr>
+             <td>メールアドレス</td>
+             <td><%= @customer.email %></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="col-md-4 row justify-content-between mx-auto mt-3">
+    <td><%= link_to "編集する", edit_customer_path(@customer.id), class: "btn btn-success change_button mt-3"%></td>
+    <td> <%= link_to "削除する", customer_path(@customer.id), method: :delete %></td>
+  </div>
+
+</div>
