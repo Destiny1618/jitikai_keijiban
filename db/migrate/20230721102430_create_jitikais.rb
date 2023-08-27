@@ -7,6 +7,7 @@ class CreateJitikais < ActiveRecord::Migration[6.1]
       t.string "title"
       t.text "body"
       t.string "name"
+      t.boolean :is_published_flag, null: false, default: false
       t.timestamps
     end
   end

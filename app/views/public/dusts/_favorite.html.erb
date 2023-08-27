@@ -1,0 +1,9 @@
+<% if dust.favorited_by?(current_customer, :customer) %>
+  <%= link_to dust_favorite_path(dust.id), method: :delete, remote: true do %>
+    ♥<%= dust.favorites.count %>
+  <% end %>
+<% else %>
+  <%= link_to dust_favorite_path(dust.id), method: :post, remote: true do %>
+    ♡<%= dust.favorites.count %>
+  <% end %>
+<% end %>

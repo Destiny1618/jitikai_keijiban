@@ -1,0 +1,11 @@
+<% @dusts.each do |dust| %>
+  <% if admin_signed_in? %>
+    <%= link_to "管理者用削除", admin_dust_path(dust.id), method: :delete %>
+  <% end %>
+  <div>
+    <%= link_to admin_dust_path(dust.id) do %>
+      <%= dust.title %>
+    <% end %>
+    <p>投稿者：<%= dust.admin.present? ? dust.admin.name : dust.customer.nickname %></p>
+  </div>
+<% end %>

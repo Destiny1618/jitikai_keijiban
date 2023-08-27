@@ -1,0 +1,13 @@
+<% if @post.favorited_by?(current_admin, :admin) %>
+  <p>
+    <%= link_to admin_post_favorite_path(@post.id), method: :delete, remote: true do %>
+      ♥<%= @post.favorites.count %> いいね
+    <% end %>
+  </p>
+  <% else %>
+  <p>
+    <%= link_to admin_post_favorite_path(@post.id), method: :post, remote: true do %>
+      ♡<%= @post.favorites.count %> いいね
+    <% end %>
+  </p>
+<% end %>

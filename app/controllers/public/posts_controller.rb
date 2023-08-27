@@ -8,7 +8,7 @@ class Public::PostsController < ApplicationController
   def create
     @post = Post.new(post_params)
     @post.customer_id = current_customer.id
-    if !current_customer.guest? && @post.save
+    if !current_customer.guest? && @post.save!
       redirect_to posts_path(@post.id)
     else
       @posts = Post.all
@@ -17,7 +17,7 @@ class Public::PostsController < ApplicationController
   end
 
   def index
-    @posts = Post.all
+    @posts = Post.published
     @post = Post.new
   end
 
@@ -54,24 +54,22 @@ class Public::PostsController < ApplicationController
   end
 
   def favorite_create
-    post = Post.find(params[:post_id])
-    if !post.customer.guest?
-      post.favorites.create(customer_id: current_customer.id)
+    @post = Post.find(params[:post_id])
+    if !current_customer.guest? && @post.customer != current_customer
+      @post.favorites.create(customer_id: current_customer.id)
     end
-    redirect_back fallback_location: root_path
   end
 
   def favorite_destroy
-    post = Post.find(params[:post_id])
-    if !post.customer.guest?
-      post.favorites.find_by(customer_id: current_customer.id).destroy
+    @post = Post.find(params[:post_id])
+    if !current_customer.guest?
+      @post.favorites.find_by(customer_id: current_customer.id).destroy
     end
-    redirect_back fallback_location: root_path
   end
 
   private
 
   def post_params
-    params.require(:post).permit(:title, :body)
+    params.require(:post).permit(:title, :body, :is_published_flag)
   end
 end

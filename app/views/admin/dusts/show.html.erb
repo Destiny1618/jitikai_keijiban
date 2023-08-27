@@ -1,0 +1,20 @@
+<div>
+  <p><%= @dust.title %></p>
+  <p><%= @dust.body %></p>
+  <% if @dust.image.attached? %>
+    <%= image_tag @dust.get_image %>
+  <% end %>
+  <% if @dust.customer.present? %>
+  <p>投稿者：<%= @dust.customer.nickname %></p>
+  <% else %>
+  <p>投稿者：<%= @dust.admin.name %></p>
+  <% end %>
+  <p>投稿日：<%= @dust.created_at.strftime('%Y/%m/%d') %></p>
+  <% if @dust.admin == current_admin %>
+    <td><%= link_to "編集", edit_admin_dust_path(@dust.id) %></td>
+    <td><%= link_to "削除", admin_dust_path(@dust), method: :delete %></td>
+  <% end %>
+  <div id="favorite-<%= @dust.id %>">
+  <%= render 'admin/dusts/favorite', dust: @dust %>
+  </div>
+</div>

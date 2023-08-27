@@ -3,6 +3,6 @@
     <%= link_to dust_path(dust.id) do %>
       <%= dust.title %>
     <% end %>
-    <p>投稿者：<%= dust.customer.name %></p>
+    <p>投稿者：<%= dust.customer.nil? ? dust.admin.name : dust.customer.nickname %></p>
   </div>
 <% end %>

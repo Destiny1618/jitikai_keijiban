@@ -1,4 +1,5 @@
 class Admin::CustomersController < ApplicationController
+  before_action :authenticate_admin!
   def index
     @customers = Customer.all.page(params[:page])
   end
@@ -23,8 +24,8 @@ class Admin::CustomersController < ApplicationController
   def destroy
     @customer = Customer.find(params[:id])
     #byebug
-    if @customer.delete
-      redirect_to customers_path, notice: "顧客情報を破棄しました"
+    if @customer.destroy
+      redirect_to admin_customers_path, notice: "顧客情報を破棄しました"
     else
       redirect_to '/customer/:id'
     end

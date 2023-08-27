@@ -1,0 +1,11 @@
+<% @jitikais.each do |jitikai| %>
+  <% if admin_signed_in? %>
+    <%= link_to "管理者用削除", admin_jitikai_path(jitikai.id), method: :delete %>
+  <% end %>
+  <div>
+    <%= link_to admin_jitikai_path(jitikai.id) do %>
+      <%= jitikai.title %>
+    <% end %>
+    <p>投稿者：<%= jitikai.admin.present? ? jitikai.admin.name : jitikai.customer.nickname %></p>
+  </div>
+<% end %>

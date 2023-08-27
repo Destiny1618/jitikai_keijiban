@@ -1,4 +1,5 @@
 class Admin::EventsController < ApplicationController
+  before_action :authenticate_admin!
   def new
     @event = Event.new
   end
@@ -7,7 +8,7 @@ class Admin::EventsController < ApplicationController
     @event = Event.new(event_params)
     @event.admin_id = current_admin.id
     if @event.save
-      redirect_to events_path(@event.id)
+      redirect_to admin_event_path(@event.id)
     else
       @events = Event.all
       render :index
@@ -15,7 +16,7 @@ class Admin::EventsController < ApplicationController
   end
 
   def index
-    @events = Event.all
+    @events = Event.published
     @event = Event.new
   end
 
@@ -29,7 +30,7 @@ class Admin::EventsController < ApplicationController
     if @event.admin == current_admin
       render :edit
     else
-      redirect_to events_path
+      redirect_to admin_events_path
     end
   end
 
@@ -37,7 +38,7 @@ class Admin::EventsController < ApplicationController
     @event = Event.find(params[:id])
     if @event.update(event_params)
       flash[:notice] = "You have updated user successfully."
-      redirect_to event_path(@event.id)
+      redirect_to admin_event_path(@event.id)
     else
       render :edit
     end
@@ -45,31 +46,29 @@ class Admin::EventsController < ApplicationController
 
   def destroy
     event = Event.find(params[:id])
-    if event.admin
-      event.destroy
-    end
-    redirect_to '/events'
+    event.destroy if event
+    redirect_to '/admin/events'
   end
 
   def favorite_create
-    event = Event.find(params[:event_id])
-    if event.admin.== current_admin
-      evemt.favorites.create(admin_id: current_admin.id)
+    event = Event.find(params[:admin_event_id])
+    if event.admin.!= current_admin
+      event.favorites.create(admin_id: current_admin.id)
     end
     redirect_back fallback_location: root_path
   end
 
   def favorite_destroy
-    event = Post.find(params[:event_id])
-    if event.admin.== current_admin
-      event.favorites.find_by(admin_id: current_admin.id).destroy
+    @event = Event.find(params[:admin_event_id])
+    if @event.admin.!= current_admin
+      @event.favorites.find_by(admin_id: current_admin.id).destroy
     end
-    redirect_back fallback_location: root_path
   end
 
   private
 
   def event_params
-    params.require(:event).permit(:title, :body)
+    params.require(:event).permit(:title, :body, :is_published_flag)
   end
+
 end

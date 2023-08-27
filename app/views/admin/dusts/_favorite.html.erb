@@ -1,0 +1,13 @@
+<% if @dust.favorited_by?(current_admin,:admin) %>
+    <p>
+      <%= link_to admin_dust_favorite_path(@dust.id), method: :delete do %>
+        ♥<%= @dust.favorites.count %> いいね
+      <% end %>
+    </p>
+    <% else %>
+    <p>
+      <%= link_to admin_dust_favorite_path(@dust.id), method: :post do %>
+        ♡<%= @dust.favorites.count %> いいね
+      <% end %>
+    </p>
+  <% end %>

@@ -4,40 +4,25 @@
   <% if @event.image.attached? %>
   <%= image_tag @event.get_image %>
   <% end%>
-  <p>投稿者：<%= @event.customer.name %></p>
+  <% if @event.customer.present? %>
+  <p>投稿者：<%= @event.customer.nickname %></p>
+  <% else %>
+  <p>投稿者：<%= @event.admin.name %></p>
+  <% end %>
   <p>投稿日：<%= @event.created_at.strftime('%Y/%m/%d') %></p>
-  <% if (@event.customer == current_customer) && (@post.!current_customer.guest?) %>
+  <% if (@event.customer == current_customer) && (@event.customer.email != "guest@example.com") %>
     <td><%= link_to "編集", edit_event_path(@event.id) %></td>
     <td><%= link_to "削除", event_path(@event), method: :delete %></td>
   <% end %>
   <% if !current_customer.guest? %>
-  <% if @event.favorited_by?(current_customer) %>
-    <p>
-      <%= link_to event_favorite_path(@event.id), method: :delete do %>
-        ♥<%= @event.favorites.count %> いいね
-      <% end %>
-    </p>
-    <% else %>
-    <p>
-      <%= link_to event_favorite_path(@event.id), method: :post do %>
-        ♡<%= @event.favorites.count %> いいね
-      <% end %>
-    </p>
-  <% end %>
+  <div id="favorite-<%= @event.id %>">
+  <%= render 'public/events/favorite', event: @event %>
+  </div>
   <% end %>
 </div>
-<div>
-  <p>コメント件数：<%= @event.event_comments.count %></p>
-  <% @event.event_comments.each do |event_comment| %>
-    <%= event_comment.customer.name %>
-    <%= event_comment.created_at.strftime('%Y/%m/%d') %><%= event_comment.comment %>
-  <% end %>
+<div id="comment_count-<%= @event.id %>">
+  <%= render 'public/events/comment_count', event: @event %>
 </div>
-<div>
-  <% if !current_customer.guest? %>
-  <%= form_with model: [@event, @event_comment] do |f| %>
-    <%= f.text_area :comment, rows: '5', placeholder: "コメントをここに" %>
-    <%= f.submit "送信する" %>
-  <% end %>
-  <% end %>
+<div id="comment-<%= @event.id %>">
+  <%= render 'public/events/comment', event: @event, event_comment: @event_comment %>
 </div>

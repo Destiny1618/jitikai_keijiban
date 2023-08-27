@@ -1,22 +1,18 @@
 <div>
   <p><%= @dust.title %></p>
   <p><%= @dust.body %></p>
+  <% if @dust.image.attached? %>
   <%= image_tag @dust.get_image %>
-  <p>投稿者：<%= @dust.customer.name %></p>
+  <% end %>
+  <% if @dust.customer.present? %>
+  <p>投稿者：<%= @dust.customer.nickname %></p>
+  <% else %>
+  <p>投稿者：<%= @dust.admin.name %></p>
+  <% end %>
   <p>投稿日：<%= @dust.created_at.strftime('%Y/%m/%d') %></p>
   <% if !current_customer.guest? %>
-  <% if @dust.favorited_by?(current_customer) %>
-    <p>
-      <%= link_to dust_favorite_path(@dust.id), method: :delete do %>
-        ♥<%= @dust.favorites.count %> いいね
-      <% end %>
-    </p>
-    <% else %>
-    <p>
-      <%= link_to dust_favorite_path(@dust.id), method: :post do %>
-        ♡<%= @dust.favorites.count %> いいね
-      <% end %>
-    </p>
-  <% end %>
+  <div id="favorite-<%= @dust.id %>">
+  <%= render 'public/dusts/favorite', dust: @dust %>
+  </div>
   <% end %>
 </div>

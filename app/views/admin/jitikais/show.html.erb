@@ -1,0 +1,20 @@
+<div>
+  <p><%= @jitikai.title %></p>
+  <p><%= @jitikai.body %></p>
+  <% if @jitikai.image.attached? %>
+    <%= image_tag @jitikai.get_image %>
+  <% end %>
+  <% if @jitikai.customer.present? %>
+  <p>投稿者：<%= @jitikai.customer.nickname %></p>
+  <% else %>
+  <p>投稿者：<%= @jitikai.admin.name %></p>
+  <% end %>
+  <p>投稿日：<%= @jitikai.created_at.strftime('%Y/%m/%d') %></p>
+  <% if @jitikai.admin == current_admin %>
+    <td><%= link_to "編集", edit_admin_jitikai_path(@jitikai.id) %></td>
+    <td><%= link_to "削除", admin_jitikai_path(@jitikai), method: :delete %></td>
+  <% end %>
+  <div id="favorite-<%= @jitikai.id %>">
+  <%= render 'admin/jitikais/favorite', jitikai: @jitikai %>
+  </div>
+</div>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_07_29_091437) do
+ActiveRecord::Schema.define(version: 2023_08_07_123627) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -76,12 +76,14 @@ ActiveRecord::Schema.define(version: 2023_07_29_091437) do
     t.string "title"
     t.text "body"
     t.string "name"
+    t.boolean "is_published_flag", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "event_comments", force: :cascade do |t|
     t.integer "customer_id"
+    t.integer "asmin_id"
     t.integer "event_id"
     t.text "comment"
     t.datetime "created_at", precision: 6, null: false
@@ -95,16 +97,19 @@ ActiveRecord::Schema.define(version: 2023_07_29_091437) do
     t.string "title"
     t.text "body"
     t.string "name"
+    t.boolean "is_published_flag", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "favorites", force: :cascade do |t|
-    t.integer "customer_id", null: false
+    t.integer "customer_id"
+    t.integer "admin_id"
     t.string "favoriteable_type", null: false
     t.integer "favoriteable_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["admin_id"], name: "index_favorites_on_admin_id"
     t.index ["customer_id"], name: "index_favorites_on_customer_id"
     t.index ["favoriteable_type", "favoriteable_id"], name: "index_favorites_on_favoriteable"
   end
@@ -116,12 +121,14 @@ ActiveRecord::Schema.define(version: 2023_07_29_091437) do
     t.string "title"
     t.text "body"
     t.string "name"
+    t.boolean "is_published_flag", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "post_comments", force: :cascade do |t|
     t.integer "customer_id"
+    t.integer "admin_id"
     t.integer "post_id"
     t.text "comment"
     t.datetime "created_at", precision: 6, null: false
@@ -136,6 +143,8 @@ ActiveRecord::Schema.define(version: 2023_07_29_091437) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "name"
     t.integer "customer_id"
+    t.integer "admin_id"
+    t.boolean "is_published_flag", default: false, null: false
   end
 
   create_table "topics", force: :cascade do |t|
@@ -146,5 +155,6 @@ ActiveRecord::Schema.define(version: 2023_07_29_091437) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "favorites", "admins"
   add_foreign_key "favorites", "customers"
 end

@@ -18,7 +18,7 @@
         <% @customers.each do |customer|%>
         <tr align="center">
         <td>
-          <%= link_to customer_path(customer.id), class:"admin_link text-dark border-bottom" do  %>
+          <%= link_to admin_customer_path(customer.id), class:"admin_link text-dark border-bottom" do  %>
           <%= customer.name %>
           <% end %>
         </td>

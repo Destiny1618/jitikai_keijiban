@@ -1,0 +1,5 @@
+<p>コメント件数：<%= event.event_comments.count %></p>
+<% event.event_comments.each do |event_comment| %>
+  <%= event_comment&.admin&.name || event_comment&.customer&.nickname %>
+  <%= event_comment.created_at.strftime('%Y/%m/%d') %><%= event_comment.comment %>
+<% end %>

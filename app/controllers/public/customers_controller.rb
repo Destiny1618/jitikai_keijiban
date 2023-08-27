@@ -20,10 +20,10 @@ class Public::CustomersController < ApplicationController
       render :edit
     end
   end
-  
+
   def unsubscribe
   end
-  
+
   def withdraw
     @customer = Customer.find(current_customer.id)
     @customer.update(is_deleted: true)
@@ -31,11 +31,11 @@ class Public::CustomersController < ApplicationController
     flash[:notice] = "退会処理を実行いたしました"
     redirect_to root_path
   end
-  
+
   private
 
   def customer_params
     params.require(:customer).permit(:name, :nickname, :email, :telephone_number, :encrypted_password)
   end
-  
+
 end

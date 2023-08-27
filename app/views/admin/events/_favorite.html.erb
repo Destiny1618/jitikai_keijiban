@@ -1,0 +1,13 @@
+<% if @event.favorited_by?(current_admin,:admin) %>
+  <p>
+    <%= link_to admin_event_favorite_path(@event.id), method: :delete, remote: true do %>
+      ♥<%= @event.favorites.count %> いいね
+    <% end %>
+  </p>
+  <% else %>
+  <p>
+    <%= link_to admin_event_favorite_path(@event.id), method: :post, remote: true do %>
+      ♡<%= @event.favorites.count %> いいね
+    <% end %>
+  </p>
+<% end %>

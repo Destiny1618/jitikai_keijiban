@@ -1,4 +1,5 @@
 class Admin::JitikaisController < ApplicationController
+  before_action :authenticate_admin!
   def new
     @jitikai = Jitikai.new
   end
@@ -7,21 +8,20 @@ class Admin::JitikaisController < ApplicationController
     @jitikai = Jitikai.new(jitikai_params)
     @jitikai.admin_id = current_admin.id
     if @jitikai.save
-      redirect_to jitikais_path(@jitikai.id)
+      redirect_to admin_jitikai_path(@jitikai.id)
     else
-      @dusts = Jitikai.all
-      render :index
+      @jitikai = Jitikai.published
+      render :new
     end
   end
 
   def index
-    @jitikais = Jitikai.all
+    @jitikais = Jitikai.published
     @jitikai = Jitikai.new
   end
 
   def show
     @jitikai = Jitikai.find(params[:id])
-    @jitikai_comment = JitikaiComment.new
   end
 
   def edit
@@ -29,7 +29,7 @@ class Admin::JitikaisController < ApplicationController
     if @jitikai.admin == current_admin
       render :edit
     else
-      redirect_to jitikais_path
+      redirect_to admin_jitikais_path
     end
   end
 
@@ -37,7 +37,7 @@ class Admin::JitikaisController < ApplicationController
     @jitikai = Jitikai.find(params[:id])
     if @jitikai.update(jitikai_params)
       flash[:notice] = "You have updated user successfully."
-      redirect_to jitikai_path(@jitikai.id)
+      redirect_to admin_jitikai_path(@jitikai.id)
     else
       render :edit
     end
@@ -45,31 +45,29 @@ class Admin::JitikaisController < ApplicationController
 
   def destroy
     jitikai = Jitikai.find(params[:id])
-    if jitikai.admin
-      jitikai.destroy
-    end
-    redirect_to '/jitikais'
+    jitikai.destroy if jitikai
+    redirect_to '/admin/jitikais'
   end
 
   def favorite_create
-    jitikai = Jitikai.find(params[:jitikai_id])
-    if jitikai.admin.== current_admin
+    jitikai = Jitikai.find(params[:admin_jitikai_id])
+    if jitikai.admin.!= current_admin
       jitikai.favorites.create(admin_id: current_admin.id)
     end
     redirect_back fallback_location: root_path
   end
 
   def favorite_destroy
-    jitikai = Jitikai.find(params[:jitikai_id])
-    if jitikai.admin.== current_admin
-      jitikai.favorites.find_by(admin_id: current_admin.id).destroy
+    @jitikai = Jitikai.find(params[:admin_jitikai_id])
+    if @jitikai.admin.!= current_admin
+      @jitikai.favorites.find_by(admin_id: current_admin.id).destroy
     end
-    redirect_back fallback_location: root_path
   end
 
   private
 
-  def post_params
-    params.require(:jitikai).permit(:title, :body)
+  def jitikai_params
+    params.require(:jitikai).permit(:title, :body, :is_published_flag)
   end
+
 end

@@ -1,0 +1,13 @@
+<% if @jitikai.favorited_by?(current_admin, :admin) %>
+  <p>
+    <%= link_to admin_jitikai_favorite_path(@jitikai.id), method: :delete do %>
+      ♥<%= @jitikai.favorites.count %> いいね
+    <% end %>
+  </p>
+  <% else %>
+  <p>
+    <%= link_to admin_jitikai_favorite_path(@jitikai.id), method: :post do %>
+      ♡<%= @jitikai.favorites.count %> いいね
+    <% end %>
+  </p>
+<% end %>

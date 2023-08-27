@@ -1,0 +1,12 @@
+<% @events.each do |event| %>
+  <% if admin_signed_in? %>
+    <%= link_to "管理者用削除", admin_event_path(event.id), method: :delete %>
+  <% end %>
+  <div>
+    <%= link_to admin_event_path(event.id) do %>
+      <%= event.title %>
+    <% end %>
+    <p>投稿者：<%= event.customer.nil? ? event.admin.name : event.customer.nickname %></p>
+    <p><%= link_to "#{event.event_comments.count} コメント", admin_event_path(event.id) %></p>
+  </div>
+<% end %>

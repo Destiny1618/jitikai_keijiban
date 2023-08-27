@@ -1,0 +1,9 @@
+<% if event.favorited_by?(current_customer, :customer) %>
+  <%= link_to event_favorite_path(event.id), method: :delete, remote: true do %>
+    ♥<%= event.favorites.count %>
+  <% end %>
+<% else %>
+  <%= link_to event_favorite_path(event.id), method: :post, remote: true do %>
+    ♡<%= event.favorites.count %>
+  <% end %>
+<% end %>

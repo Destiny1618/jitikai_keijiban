@@ -1,0 +1,17 @@
+<%= form_with model: @event,url:admin_events_path do |f| %>
+<div class="form-group">
+  <label>
+    <p>タイトル</p>
+    <%= f.text_field :title %>
+  </label>
+</div>
+<div class="form-group">
+  <p>説明</p>
+  <%= f.text_area :body %>
+  <%= f.submit '投稿', class: "btn btn-success" %>
+</div>
+<div>
+  <p>画像</p>
+  <%= f.file_field :image, accept: "image/*" %>
+</div>
+<% end %>

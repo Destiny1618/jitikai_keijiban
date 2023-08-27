@@ -1,0 +1,26 @@
+<%= form_with model: @jitikai,url:admin_jitikais_path do |f| %>
+<div class="form-group">
+  <label>
+    <p>タイトル</p>
+    <%= f.text_field :title %>
+  </label>
+</div>
+<div class="form-group">
+  <p>説明</p>
+  <%= f.text_area :body %>
+  <%= f.submit '投稿', class: "btn btn-success" %>
+</div>
+<div>
+  <p>画像</p>
+  <%= f.file_field :image, accept: "image/*" %>
+</div>
+<div>
+  <p>公開設定</p>
+  <%= f.label :is_published_flag, "公開", value: true %>
+  <%= f.radio_button :is_published_flag, 'true' %>
+</div>
+<div>
+  <%= f.label :is_published_flag, "非公開", value: false %>
+  <%= f.radio_button :is_published_flag,'false' %>
+</div>
+<% end %>

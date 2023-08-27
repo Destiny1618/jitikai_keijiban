@@ -1,0 +1,9 @@
+<% if jitikai.favorited_by?(current_customer, :customer) %>
+  <%= link_to jitikai_favorite_path(jitikai.id), method: :delete, remote: true do %>
+    ♥<%= jitikai.favorites.count %>
+  <% end %>
+<% else %>
+  <%= link_to jitikai_favorite_path(jitikai.id), method: :post, remote: true do %>
+    ♡<%= jitikai.favorites.count %>
+  <% end %>
+<% end %>
