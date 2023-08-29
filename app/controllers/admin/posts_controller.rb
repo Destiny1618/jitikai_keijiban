@@ -70,5 +70,5 @@ class Admin::PostsController < ApplicationController
   def post_params
     params.require(:post).permit(:title, :body, :is_published_flag)
   end
-  
+
 end
