@@ -2,7 +2,6 @@ class Public::CustomersController < ApplicationController
   def show
     @customer = Customer.find(params[:id])
     @posts = @customer.posts
-    #byebug
     @jitikais = @customer.jitikais
     @events = @customer.events
     @dusts = @customer.dusts

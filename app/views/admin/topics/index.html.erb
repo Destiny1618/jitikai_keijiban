@@ -1,5 +1,21 @@
-<h1>HOME</h1>
-<%= link_to "自治会連絡", admin_jitikais_path %>
-<%= link_to "掲示板", admin_posts_path %>
-<%= link_to "イベント連絡", admin_events_path %>
-<%= link_to "ごみの日", admin_dusts_path %>
+<div class="container">
+  <div class="row">
+    <div class="offset-md-2 col-md-10">
+      <h1>HOME</h1>
+    </div>
+    <div class="col-md-3">
+      <%= link_to "自治会連絡", jitikais_path %>
+
+    </div>
+    <div class="col-md-3">
+      <%= link_to "掲示板", posts_path %>
+
+    </div>
+    <div class="col-md-3">
+      <%= link_to "イベント連絡", events_path %>
+    </div>
+    <div class="col-md-3">
+      <%= link_to "ごみの日", dusts_path %>
+    </div>
+  </div>
+</div>
