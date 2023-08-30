@@ -1,30 +1,34 @@
-<div>
-  <h3>マイページ</h3>
-    <table class="table">
-      <tbody>
-        <tr>
-          <td><%= @customer.name %></td>
-          <td><%= @customer.nickname %></td>
-          <td><%= @customer.telephone_number %></td>
-          <td><%= @customer.email %></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-    <% @posts.each do |post| %>
-    <%= post.title %>
-    <p><%= link_to "#{post.post_comments.count} コメント", post_path(post.id) %></p>
-    <% end %>
-
-    <% @events.each do |event| %>
-    <%= event.title %>
-    <p><%= link_to "#{event.event_comments.count} コメント", event_path(event.id) %></p>
-    <% end %>
-
-    <% @customer.favorite_posts.each do | post| %>
-      <p>----<%= post.title %>----</p>
-    <% end %>
-    <% @customer.favorite_events.each do | event| %>
-      <p>----<%= event.title %>----</p>
-    <% end %>
+<div class="container mt-5">
+  <div class='row justify-content-center'>
+    <div>
+      <h3 class="mx-auto headline">マイページ</h3>
+        <table class="table">
+          <tbody>
+            <h4 class="mb-0">登録情報</h4>
+            <%= link_to "編集する", customers_information_edit_path, class: "btn d-flex align-items-center ms-3 btn-success" %>
+              <td><%= @customer.name %></td>
+              <td><%= @customer.nickname %></td>
+              <td><%= @customer.telephone_number %></td>
+              <td><%= @customer.email %></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    
+        <% @posts.each do |post| %>
+        <%= post.title %>
+        <p><%= link_to "#{post.post_comments.count} コメント", post_path(post.id) %></p>
+        <% end %>
+    
+        <% @events.each do |event| %>
+        <%= event.title %>
+        <p><%= link_to "#{event.event_comments.count} コメント", event_path(event.id) %></p>
+        <% end %>
+    
+        <% @customer.favorite_posts.each do | post| %>
+          <p>----<%= post.title %>----</p>
+        <% end %>
+        <% @customer.favorite_events.each do | event| %>
+          <p>----<%= event.title %>----</p>
+        <% end %>
+    
